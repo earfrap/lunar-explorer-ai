@@ -30,10 +30,15 @@ class MissionPlanner:
         self.predictor = predictor
 
         self.max_slope = max_slope
-
+        self.drill_threshold = 0.60
         self.probability_map = (
             predictor.predict_prior_map(environment)
         )
+
+        self.prior_map = self.probability_map.copy()
+
+        self.update_radius = 25.0
+        self.update_strength = 0.5
 
         self.visited = np.zeros(
             (environment.size, environment.size),
@@ -173,18 +178,109 @@ class MissionPlanner:
                 return target, path
 
         return None, None
+
+    def update_probability_map(
+        self,
+        row,
+        col,
+        observed_probability
+    ):
+
+        # Compare sensor-informed prediction
+        # with the original prior at this location.
+
+        prior_probability = self.prior_map[row, col]
+
+        correction = (
+            observed_probability - prior_probability
+        )
+
+        # Work only within a local neighborhood.
+
+        sigma_cells = (
+            self.update_radius
+            / self.environment.resolution
+        )
+
+        influence_cells = int(
+            np.ceil(3 * sigma_cells)
+        )
+
+        r0 = max(0, row - influence_cells)
+        r1 = min(
+            self.environment.size,
+            row + influence_cells + 1
+        )
+
+        c0 = max(0, col - influence_cells)
+        c1 = min(
+            self.environment.size,
+            col + influence_cells + 1
+        )
+
+        rows, cols = np.mgrid[r0:r1, c0:c1]
+
+        distance_squared = (
+            (rows - row)**2
+            + (cols - col)**2
+        )
+
+        weights = np.exp(
+            -distance_squared
+            / (2 * sigma_cells**2)
+        )
+
+        # Propagate part of the correction
+        # to nearby unvisited locations.
+
+        local_map = self.probability_map[
+            r0:r1, c0:c1
+        ]
+
+        local_visited = self.visited[
+            r0:r1, c0:c1
+        ]
+
+        update = (
+            self.update_strength
+            * correction
+            * weights
+        )
+
+        local_map[~local_visited] += (
+            update[~local_visited]
+        )
+
+        np.clip(
+            local_map,
+            0.0,
+            1.0,
+            out=local_map
+        )
+
+        # At the measured location, use the
+        # sensor-informed probability directly.
+
+        self.probability_map[
+            row, col
+        ] = observed_probability
+
+
     def explore_step(self, drill=False, max_distance=None):
 
+        # Select next exploration target.
         target, path = self.select_target()
 
         if target is None:
             return None
 
+        # Calculate travel distance.
         path_distance = (
             (len(path) - 1)
             * self.environment.resolution
         )
 
+        # Check remaining travel budget.
         if max_distance is not None:
 
             remaining = (
@@ -195,20 +291,21 @@ class MissionPlanner:
             if path_distance > remaining:
                 return None
 
-        for row, col in path[1:]:
+        # Move rover along the planned path.
+        for position in path[1:]:
 
-            self.rover.move_to(row, col)
+            self.rover.move_to(*position)
 
-            self.path_history.append(
-                (row, col)
-            )
+            self.path_history.append(position)
 
-        observation = self.rover.measure(
-            drill=drill
-        )
-
+        # Target coordinates.
         row, col = target
 
+        # STEP 1: Acquire non-invasive measurements.
+        observation = self.rover.measure(drill=False)
+
+        # STEP 2: Estimate ice probability using
+        # temperature, slope, neutron and GPR.
         updated_probability = (
             self.predictor.predict_observation(
                 self.environment.temperature[row, col],
@@ -218,11 +315,41 @@ class MissionPlanner:
             )
         )
 
-        self.probability_map[
-            row, col
-        ] = updated_probability
+        # Store the sensor-informed probability.
+        observation["ice_probability"] = float(
+            updated_probability
+        )
 
+        # STEP 3: Decide whether to drill.
+        should_drill = (
+            drill
+            and updated_probability >= self.drill_threshold
+        )
+
+        observation["drill_attempted"] = bool(
+            should_drill
+        )
+
+        # STEP 4: Perform selective drilling.
+        if should_drill:
+
+            observation["drill"] = (
+                self.rover.sensors.drill_measurement(
+                    row,
+                    col
+                )
+            )
+
+        # STEP 5: Update nearby ice probabilities.
+        self.update_probability_map(
+            row,
+            col,
+            updated_probability
+        )
+
+        # Mark location as explored.
         self.visited[row, col] = True
 
         return observation
+
 

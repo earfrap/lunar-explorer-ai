@@ -22,17 +22,22 @@ def evaluate_observations(env, rover):
 
     detections = 0
     confirmed = 0
+    drill_attempts = 0
 
     for obs in rover.observations:
 
         row = obs["row"]
         col = obs["col"]
 
+        # Ground truth is used ONLY for evaluation.
         ice = env.ice_content[row, col]
         depth = env.ice_depth[row, col]
 
         if ice >= ICE_THRESHOLD:
             detections += 1
+
+        if obs.get("drill_attempted", False):
+            drill_attempts += 1
 
         if (
             ice >= ICE_THRESHOLD
@@ -43,15 +48,20 @@ def evaluate_observations(env, rover):
             confirmed += 1
 
     n = len(rover.observations)
-
     distance = rover.distance_travelled
 
     return {
         "measurements": n,
         "detections": detections,
+        "drill_attempts": drill_attempts,
+        "drills_avoided": n - drill_attempts,
         "confirmed": confirmed,
         "detection_rate": (
             detections / n if n else 0.0
+        ),
+        "drill_success_rate": (
+            confirmed / drill_attempts
+            if drill_attempts else 0.0
         ),
         "distance": distance,
         "detections_per_100m": (
@@ -59,6 +69,8 @@ def evaluate_observations(env, rover):
             if distance > 0 else 0.0
         )
     }
+
+
 
 
 def run_ai_mission(env, predictor, seed):
@@ -89,7 +101,7 @@ def run_ai_mission(env, predictor, seed):
     return evaluate_observations(env, rover)
 
 
-def run_systematic_mission(env, seed):
+def run_systematic_mission(env, predictor, seed):
 
     rover = LunarRover(
         env,
@@ -173,8 +185,38 @@ def run_systematic_mission(env, seed):
         for row, col in path[1:]:
             rover.move_to(row, col)
 
-        rover.measure(drill=True)
+        # Acquire non-invasive measurements.
+        observation = rover.measure(drill=False)
 
+        row, col = target
+
+        # Use the same ML model for drilling decisions.
+        probability = predictor.predict_observation(
+            env.temperature[row, col],
+            env.slope[row, col],
+            observation["neutron"],
+            observation["gpr"]
+        )
+
+        observation["ice_probability"] = float(
+            probability
+        )
+
+        # Same drilling threshold as the AI rover.
+        should_drill = (
+            probability >= planner.drill_threshold
+        )
+
+        observation["drill_attempted"] = bool(
+            should_drill
+        )
+
+        if should_drill:
+            observation["drill"] = (
+                rover.sensors.drill_measurement(
+                    row, col
+                )
+            )
     return evaluate_observations(env, rover)
 
 
@@ -198,7 +240,7 @@ def main():
         )
 
         systematic = run_systematic_mission(
-            env, seed
+            env, predictor, seed
         )
 
         results.append({
@@ -219,11 +261,15 @@ def main():
     metrics = [
         "measurements",
         "detections",
+        "drill_attempts",
+        "drills_avoided",
         "confirmed",
         "detection_rate",
+        "drill_success_rate",
         "distance",
         "detections_per_100m"
     ]
+
 
     for metric in metrics:
 

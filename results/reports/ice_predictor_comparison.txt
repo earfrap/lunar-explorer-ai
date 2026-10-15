@@ -1,0 +1,52 @@
+Generating training data...
+Generating independent test data...
+
+CLASS DISTRIBUTIONS
+---------------------------------------------
+Training ice-positive fraction: 0.143
+Training accessible fraction: 0.069
+Test ice-positive fraction: 0.194
+Test accessible fraction: 0.087
+
+Training models...
+
+============================================================
+EVALUATION: ACCESSIBLE ICE
+============================================================
+
+Original model — ice presence target
+---------------------------------------------
+Precision: 0.362
+Recall:    0.594
+ROC-AUC:   0.873
+AP:        0.413
+True positives:  258
+False positives: 455
+False negatives: 176
+True negatives:  4111
+
+Experimental model — accessible ice target
+---------------------------------------------
+Precision: 0.638
+Recall:    0.394
+ROC-AUC:   0.920
+AP:        0.566
+True positives:  171
+False positives: 97
+False negatives: 263
+True negatives:  4469
+
+============================================================
+EVALUATION: ICE PRESENCE
+============================================================
+
+Original model — ice presence target
+---------------------------------------------
+Precision: 0.669
+Recall:    0.491
+ROC-AUC:   0.883
+AP:        0.656
+True positives:  477
+False positives: 236
+False negatives: 495
+True negatives:  3792

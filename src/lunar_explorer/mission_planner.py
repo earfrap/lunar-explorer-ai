@@ -157,9 +157,9 @@ class MissionPlanner:
                 )
 
                 score = (
-                    0.6 * probability
-                    + 0.3 * uncertainty
-                    - 0.1 * distance / self.environment.size
+                    0.75 * probability
+                    + 0.15 * uncertainty
+                    - 0.10 * distance / self.environment.size
                 )
 
                 candidates.append(

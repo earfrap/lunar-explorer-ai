@@ -1,0 +1,107 @@
+Training completed: 10000 samples
+Ice-positive fraction: 0.147
+
+==============================================================================
+SEED 100
+==============================================================================
+Step | Position | AI prob | Ice content | Depth | Drill? | Drill value | Accessible?
+   1 | (48,57) |   0.414 |       0.206 | 0.412 |  False |           - |       False
+   2 | (42,64) |   0.626 |       0.282 | 0.576 |   True |       0.263 |       False
+   3 | (42,65) |   0.747 |       0.308 | 0.599 |   True |       0.322 |       False
+   4 | (41,66) |   0.876 |       0.342 | 0.619 |   True |       0.387 |       False
+   5 | (42,66) |   0.689 |       0.335 | 0.621 |   True |       0.370 |       False
+   6 | (43,66) |   0.541 |       0.314 | 0.621 |  False |           - |       False
+   7 | (44,66) |   0.335 |       0.288 | 0.622 |  False |           - |       False
+   8 | (44,67) |   0.253 |       0.321 | 0.640 |  False |           - |       False
+   9 | (44,68) |   0.563 |       0.352 | 0.657 |  False |           - |        True
+  10 | (45,68) |   0.467 |       0.332 | 0.654 |  False |           - |       False
+  11 | (46,68) |   0.406 |       0.316 | 0.651 |  False |           - |       False
+  12 | (46,69) |   0.521 |       0.343 | 0.664 |  False |           - |       False
+  13 | (47,69) |   0.424 |       0.332 | 0.659 |  False |           - |       False
+  14 | (47,70) |   0.443 |       0.346 | 0.669 |  False |           - |       False
+  15 | (48,70) |   0.234 |       0.336 | 0.663 |  False |           - |       False
+  16 | (49,70) |   0.350 |       0.327 | 0.657 |  False |           - |       False
+  17 | (49,69) |   0.352 |       0.318 | 0.649 |  False |           - |       False
+  18 | (48,69) |   0.156 |       0.324 | 0.654 |  False |           - |       False
+  19 | (48,68) |   0.215 |       0.300 | 0.643 |  False |           - |       False
+  20 | (47,68) |   0.274 |       0.306 | 0.647 |  False |           - |       False
+
+SUMMARY
+Accessible cells in map: 819
+Measurements: 20
+Accessible cells visited: 1
+Accessible cells not drilled: 1
+Drill attempts: 4
+Confirmed: 0
+Positive readings without accessible ice: 2
+Distance travelled: 205.0 m
+
+==============================================================================
+SEED 101
+==============================================================================
+Step | Position | AI prob | Ice content | Depth | Drill? | Drill value | Accessible?
+   1 | (49,51) |   0.037 |       0.345 | 1.424 |  False |           - |       False
+   2 | (46,57) |   0.937 |       0.431 | 0.986 |   True |       0.425 |        True
+   3 | (45,57) |   0.974 |       0.443 | 0.932 |   True |       0.464 |        True
+   4 | (44,57) |   0.928 |       0.432 | 0.879 |   True |       0.415 |        True
+   5 | (43,57) |   0.391 |       0.396 | 0.828 |  False |           - |        True
+   6 | (42,58) |   0.741 |       0.410 | 0.728 |   True |       0.376 |        True
+   7 | (42,56) |   0.790 |       0.389 | 0.833 |   True |       0.382 |        True
+   8 | (43,55) |   0.466 |       0.385 | 0.939 |  False |           - |        True
+   9 | (44,59) |   0.939 |       0.444 | 0.777 |   True |       0.444 |        True
+  10 | (45,59) |   0.907 |       0.428 | 0.829 |   True |       0.438 |        True
+  11 | (46,59) |   0.944 |       0.442 | 0.882 |   True |       0.456 |        True
+  12 | (46,60) |   0.551 |       0.384 | 0.834 |  False |           - |        True
+  13 | (47,60) |   0.937 |       0.428 | 0.888 |   True |       0.412 |        True
+  14 | (47,61) |   0.825 |       0.407 | 0.844 |   True |       0.414 |        True
+  15 | (47,62) |   0.858 |       0.428 | 0.803 |   True |       0.400 |        True
+  16 | (46,62) |   0.960 |       0.404 | 0.750 |   True |       0.434 |        True
+  17 | (46,63) |   0.845 |       0.454 | 0.716 |   True |       0.424 |        True
+  18 | (45,63) |   0.934 |       0.437 | 0.668 |   True |       0.455 |        True
+  19 | (45,64) |   0.956 |       0.464 | 0.641 |   True |       0.474 |        True
+  20 | (45,65) |   0.885 |       0.445 | 0.621 |   True |       0.439 |        True
+
+SUMMARY
+Accessible cells in map: 560
+Measurements: 20
+Accessible cells visited: 19
+Accessible cells not drilled: 3
+Drill attempts: 16
+Confirmed: 16
+Positive readings without accessible ice: 0
+Distance travelled: 250.0 m
+
+==============================================================================
+SEED 102
+==============================================================================
+Step | Position | AI prob | Ice content | Depth | Drill? | Drill value | Accessible?
+   1 | (65,65) |   0.419 |       0.286 | 1.412 |  False |           - |       False
+   2 | (66,67) |   0.264 |       0.296 | 1.433 |  False |           - |       False
+   3 | (70,70) |   0.522 |       0.315 | 1.424 |  False |           - |       False
+   4 | (74,71) |   0.559 |       0.363 | 1.381 |  False |           - |       False
+   5 | (75,71) |   0.685 |       0.378 | 1.363 |   True |       0.000 |       False
+   6 | (77,70) |   0.411 |       0.408 | 1.292 |  False |           - |       False
+   7 | (75,66) |   0.335 |       0.342 | 1.231 |  False |           - |       False
+   8 | (81,61) |   0.705 |       0.336 | 0.935 |   True |       0.327 |       False
+   9 | (95,55) |   0.769 |       0.287 | 0.183 |   True |       0.315 |       False
+  10 | (96,55) |   0.804 |       0.306 | 0.151 |   True |       0.279 |       False
+  11 | (97,55) |   0.942 |       0.288 | 0.126 |   True |       0.302 |       False
+  12 | (98,55) |   0.509 |       0.270 | 0.109 |  False |           - |       False
+  13 | (99,55) |   0.499 |       0.271 | 0.100 |  False |           - |       False
+  14 | (99,56) |   0.915 |       0.295 | 0.102 |   True |       0.326 |       False
+  15 | (99,57) |   0.787 |       0.294 | 0.110 |   True |       0.281 |       False
+  16 | (99,58) |   0.545 |       0.243 | 0.125 |  False |           - |       False
+  17 | (99,59) |   0.119 |       0.213 | 0.146 |  False |           - |       False
+  18 | (99,60) |   0.364 |       0.229 | 0.173 |  False |           - |       False
+  19 | (99,61) |   0.278 |       0.237 | 0.207 |  False |           - |       False
+  20 | (99,62) |   0.255 |       0.258 | 0.247 |  False |           - |       False
+
+SUMMARY
+Accessible cells in map: 842
+Measurements: 20
+Accessible cells visited: 0
+Accessible cells not drilled: 0
+Drill attempts: 7
+Confirmed: 0
+Positive readings without accessible ice: 0
+Distance travelled: 805.0 m

@@ -10,9 +10,12 @@ from lunar_explorer.environment import LunarEnvironment
 from lunar_explorer.rover import LunarRover
 from lunar_explorer.ice_predictor import IcePredictor
 from lunar_explorer.mission_planner import MissionPlanner
+from lunar_explorer.scientific_metrics import (
+    ICE_THRESHOLD,
+    is_ground_truth_ice,
+    is_validated_confirmation,
+)
 
-
-ICE_THRESHOLD = 0.35
 MAX_DISTANCE = 1000.0
 MAX_MEASUREMENTS = 20
 MAX_SLOPE = 25.0
@@ -33,18 +36,14 @@ def evaluate_observations(env, rover):
         ice = env.ice_content[row, col]
         depth = env.ice_depth[row, col]
 
-        if ice >= ICE_THRESHOLD:
+        # Ground truth is used ONLY for evaluation.
+        if is_ground_truth_ice(env, row, col):
             detections += 1
-
         if obs.get("drill_attempted", False):
             drill_attempts += 1
 
-        if (
-            ice >= ICE_THRESHOLD
-            and depth <= 1.0
-            and obs["drill"] is not None
-            and obs["drill"] >= ICE_THRESHOLD
-        ):
+
+        if is_validated_confirmation(env, obs):
             confirmed += 1
 
     n = len(rover.observations)
@@ -101,7 +100,14 @@ def run_ai_mission(env, predictor, seed):
     return evaluate_observations(env, rover)
 
 
-def run_systematic_mission(env, predictor, seed):
+
+def run_systematic_mission(
+    env,
+    predictor,
+    seed,
+    max_measurements=MAX_MEASUREMENTS,
+    max_distance=MAX_DISTANCE,
+):
 
     rover = LunarRover(
         env,
@@ -161,7 +167,7 @@ def run_systematic_mission(env, predictor, seed):
 
     for target in coordinates:
 
-        if len(rover.observations) >= MAX_MEASUREMENTS:
+        if len(rover.observations) >= max_measurements:
             break
 
         path = planner.astar(
@@ -178,7 +184,7 @@ def run_systematic_mission(env, predictor, seed):
 
         if (
             rover.distance_travelled + path_distance
-            > MAX_DISTANCE
+            > max_distance
         ):
             continue
 

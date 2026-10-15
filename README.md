@@ -1,4 +1,7 @@
 # 🌙 Lunar Explorer AI
+
+**[🌙 Launch the Live Demo](https://lunar-explorer-ai-rappisi.streamlit.app/)** · **[GitHub Repository](https://github.com/earfrap/lunar-explorer-ai)**
+
 ### Machine Learning-Guided Autonomous Exploration for Lunar Water-Ice Discovery
 
 **An independent Applied AI research project combining synthetic lunar environments, geophysical sensing, supervised machine learning, and autonomous mission planning.**
@@ -63,13 +66,9 @@ It integrates environmental maps, rover navigation, geophysical observations, an
 streamlit run app.py
 ```
 
-A publicly hosted interactive demo is planned.
+**[Open the public Streamlit demo](https://lunar-explorer-ai-rappisi.streamlit.app/)** to try the dashboard directly in your browser.
 
 See [Demo Guide](docs/DEMO.md).
-
-<!-- Add a dashboard screenshot here once captured:
-![Lunar Explorer AI dashboard](docs/figures/dashboard.png)
--->
 
 ## System Architecture
 
@@ -167,7 +166,7 @@ Python **3.12.15** was used during development.
 Clone the repository:
 
 ```bash
-git clone <REPOSITORY_URL>
+git clone https://github.com/earfrap/lunar-explorer-ai.git
 cd lunar-explorer-ai
 ```
 

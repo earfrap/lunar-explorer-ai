@@ -1,5 +1,7 @@
 # Lunar Explorer AI — Interactive Demo
 
+**[🌙 Launch the Live Demo](https://lunar-explorer-ai-rappisi.streamlit.app/)** · **[GitHub Repository](https://github.com/earfrap/lunar-explorer-ai)**
+
 ## Overview
 
 The Streamlit dashboard provides an interactive interface to the synthetic lunar exploration simulator.
@@ -29,18 +31,17 @@ The application configures the required `src/` and `tests/` import paths interna
 
 ## Public Deployment
 
-Streamlit Community Cloud is a potential hosting option.
+The dashboard is hosted on Streamlit Community Cloud:
 
-Before deployment:
+**[Open Lunar Explorer AI](https://lunar-explorer-ai-rappisi.streamlit.app/)**
 
-1. Push the reviewed repository to GitHub.
-2. Confirm that `requirements.txt` contains all runtime dependencies.
-3. Connect the GitHub repository to Streamlit Community Cloud.
-4. Select `app.py` as the application entry point.
-5. Test the deployed application, including mission execution and visualizations.
-6. Add the public application URL to the README.
+No local Python installation is required to use the public demo.
 
-Deployment has not yet been performed or verified.
+Source code and scientific documentation are available in the [GitHub repository](https://github.com/earfrap/lunar-explorer-ai).
+
+The deployment uses the `main` branch of `earfrap/lunar-explorer-ai`, with `app.py` as the application entry point and runtime dependencies listed in `requirements.txt`.
+
+To check the demo, run a complete mission and inspect the resulting visualizations and mission metrics.
 
 ## Suggested Demonstration Video
 
